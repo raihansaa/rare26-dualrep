@@ -40,9 +40,9 @@ repository `tgwboers/GastroNet-5M_Pretrained_Weights` carries no licence tag, co
 `.gitattributes` and a README (checked against the HuggingFace API, last modified January 2026).
 
 The weights are released publicly by their authors for scientific use, and that is the basis on
-which they are used here. The RARE26 rules permit publicly available pretrained models and
-prohibit only private external data, so this use is compliant. No terms have been agreed to
-beyond public availability, and nothing here is redistributed.
+which they are used here. The RARE26 rules permit publicly available pretrained models. These
+weights were obtained from their public distribution source and are not redistributed in this
+repository.
 
 Attribution is given to the originating work:
 
