@@ -1,0 +1,31 @@
+# RARE26 training environment (Python 3.12)
+#
+# torch/torchvision come from the CUDA 12.8 index. This build is verified to
+# carry sm_120 kernels, which the RTX 5060 (Blackwell) requires -- do not
+# substitute a CPU or non-cu128 build without re-running the sm_120 check:
+#
+#   python -m venv .venv
+#   .venv/Scripts/python -m pip install torch==2.11.0 torchvision==0.26.0 \
+#       --index-url https://download.pytorch.org/whl/cu128
+#   .venv/Scripts/python -m pip install -r requirements.txt
+#
+# Direct dependencies only. Generate a full `pip freeze` lock at the Aug 30
+# freeze so the container pins transitive versions too (plan S17, S18).
+
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+
+numpy==2.4.4
+pandas==3.0.5
+scipy==1.18.0
+scikit-learn==1.9.0
+
+pillow==12.2.0
+opencv-python==5.0.0.93
+ImageHash==4.3.2
+
+timm==1.0.28
+
+tqdm==4.70.0
+PyYAML==6.0.3
+matplotlib==3.11.1

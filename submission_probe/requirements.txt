@@ -1,0 +1,5 @@
+# torch, torchvision and numpy are deliberately absent: they ship in the base
+# image, and installing them here resolves against PyPI and shadows the base
+# image's CUDA build with a --user copy, silently disabling the GPU.
+SimpleITK==2.5.6
+timm==1.0.28
