@@ -1246,7 +1246,7 @@ is external, not local, and no further local experiment can resolve it.
   §1 is a rank on the set that decides nothing.**
 - **Rank 72 is not a verdict.** RARE25's second-place team reported development AUROC 0.7709
   and PPV@90R 0.0112 — worse than our 0.820 / 0.0151 — and finished 2nd overall with the best
-  AUPRC on the hidden test. Team `sk` posted development numbers essentially identical to ours
+  AUPRC on the hidden test. Another team posted development numbers essentially identical to ours
   and finished mid-pack. The field also thins hard: 20 teams in development, 11 completing the
   closed phase, which requires a 2–3 page paper and MIT-licensed code (§7 item 1).
 - **The invisible-positive model is refuted (2026-08-19).** If a fraction f = 0.242 of
