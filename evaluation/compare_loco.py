@@ -2,7 +2,7 @@
 
 One predeclared A/B at a time, on the protocol that has survived scrutiny here:
 train on the other centres, test on a centre no model saw. Both runs score the
-identical images, so the bootstrap is paired and clustered by patient -- far more
+identical images, so the bootstrap is paired and clustered by near-duplicate group -- far more
 powerful than comparing two marginal confidence intervals, which overlap heavily
 at this positive count even when the paired delta is consistent.
 """
@@ -51,7 +51,7 @@ for _ in range(a.n_boot):
     da.append(mb["auprc"] - ma["auprc"])
     dr.append(mb["auroc"] - ma["auroc"])
 f = lambda d: (np.nanmedian(d), *np.nanpercentile(d, [2.5, 97.5]), np.nanmean(np.array(d) > 0))
-print("\npaired delta (candidate - baseline), %d patient-clustered draws:" % len(dp))
+print("\npaired delta (candidate - baseline), %d group-clustered draws:" % len(dp))
 for name, d in (("AUPRC", da), ("AUROC", dr), ("PPV@90R", dp)):
     print("  %-8s %+.4f  [%+.4f, %+.4f]   P(gain) = %.3f" % ((name,) + f(d)))
 print("\nAUPRC/AUROC are the decidable signals at this sample size; PPV@90R will")

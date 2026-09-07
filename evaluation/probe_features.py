@@ -32,7 +32,7 @@ for path in a.banks:
     print("%s   %d images x %d dims" % (path, *X.shape))
     print("=" * 66)
 
-    print("\nCENTRE IDENTIFIABILITY (patient-grouped 5-fold)")
+    print("\nCENTRE IDENTIFIABILITY (group-clustered 5-fold)")
     cls = np.unique(centre)
     pred = np.empty(len(y), dtype=object)
     cv = StratifiedGroupKFold(5, shuffle=True, random_state=0)

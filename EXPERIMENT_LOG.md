@@ -159,7 +159,7 @@ sha256 prefix `20ab749ec4bfdd53`.
 ## 3. Everything measured
 
 All via **leave-one-centre-out** (train on two centres, test on the third), paired
-patient-clustered bootstrap. Baseline throughout: LoRA-6 domain DINOv2, center_1
+group-clustered bootstrap. Baseline throughout: LoRA-6 domain DINOv2, center_1
 AUPRC 0.8710 / center_2 0.9735.
 
 | lever | verdict | numbers |
@@ -615,7 +615,7 @@ on an artifact. Both predict this table exactly. Only an external measurement se
 §4's revised rule says AUPRC must not veto a metric-aligned change, so the jigsaw arm — which
 we rejected as a standalone on AUPRC — was re-scored on the tail. Point estimates favour it
 over the shipped arm on both centres (c1 FPR@90R 0.0356 → 0.0144, c2 0.0042 → 0.0000), but the
-paired patient-clustered bootstrap does not confirm it:
+paired group-clustered bootstrap does not confirm it:
 
 | | center_1 | center_2 |
 |---|---|---|
@@ -871,7 +871,7 @@ Consequences, and they are large:
 
 - **The 22.6% FPR@90R cut that justified prior shift (§3) was a handful of images**, not an
   effect. So is most of the FPR@90R column throughout this log. Deltas on this metric at
-  n+ = 61–97 should be treated as uninformative unless they survive a patient bootstrap.
+  n+ = 61–97 should be treated as uninformative unless they survive a group bootstrap.
 - **A single development submission cannot distinguish two configurations.** 0.0148 / 0.0151 /
   0.0150 are three draws from one noisy process, exactly as the CI [0.0108, 0.0746] implies.
   Do not spend a slot to A/B anything at this resolution.
@@ -1029,7 +1029,7 @@ extra run to establish, and in one of the two cases it changed the answer comple
 
 | file | purpose |
 |---|---|
-| `evaluation/compare_loco.py` | paired patient-clustered A/B of two LOCO runs — **the standard test** |
+| `evaluation/compare_loco.py` | paired group-clustered A/B of two LOCO runs — **the standard test** |
 | `evaluation/feature_bank.py` | extract frozen features from any backbone (auto-detects ViT vs RN50) |
 | `evaluation/probe_features.py` | centre identifiability + LOCO label probe from a feature bank |
 | `evaluation/ensemble_loco.py` | ensemble + Platt calibration + fixed-threshold transfer |

@@ -87,7 +87,7 @@ sp, sr = np.array([x[0] for x in single]), np.array([x[1] for x in single])
 print("%-34s %9.4f %9s   (range %.4f-%.4f)"
       % ("single members, fixed threshold", np.nanmean(sp), "%.3f" % sr.mean(), np.nanmin(sp), np.nanmax(sp)))
 
-# patient-level cluster bootstrap on the fixed-threshold ensemble result
+# group-level cluster bootstrap on the fixed-threshold ensemble result
 g = pd.read_csv(a.folds).set_index("image_id").group_id
 groups = crs[0].image_id.map(g).to_numpy()
 uniq = np.unique(groups)
@@ -99,7 +99,7 @@ for _ in range(a.n_boot):
         continue
     boot.append(at_threshold(yc[take], ens_c[take], t_ens)[0])
 lo, hi = np.nanpercentile(boot, [2.5, 97.5])
-print("\nfixed-threshold PPV, patient-cluster bootstrap: %.4f [%.4f, %.4f]" % (ppv_fixed, lo, hi))
+print("\nfixed-threshold PPV, group-cluster bootstrap: %.4f [%.4f, %.4f]" % (ppv_fixed, lo, hi))
 print("threshold %.6f picked on the calibration slice, applied unchanged" % t_ens)
 if rec_fixed < 0.90:
     print("WARNING: transferred threshold achieved %.1f%% recall, below the 90%% the metric requires"

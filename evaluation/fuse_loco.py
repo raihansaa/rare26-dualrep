@@ -6,7 +6,7 @@ came out negative for that reason. Here the weight is PREDECLARED, so there is
 no selection and no optimism to subtract; the only question is whether it holds
 on a centre no model trained on.
 
-Paired patient-clustered bootstrap, because both arms score the identical images.
+Paired group-clustered bootstrap, because both arms score the identical images.
 """
 import argparse, glob, os
 import numpy as np, pandas as pd
@@ -54,7 +54,7 @@ for _ in range(a.n_boot):
     dp.append(f_["ppv"] - d_["ppv"])
     da.append(f_["auprc"] - d_["auprc"])
 dp, da = np.array(dp), np.array(da)
-print("\npaired delta (fusion - DINOv2 alone), %d patient-clustered draws:" % len(dp))
+print("\npaired delta (fusion - DINOv2 alone), %d group-clustered draws:" % len(dp))
 print("  PPV@90R  %+.4f  [%+.4f, %+.4f]   P(gain) = %.3f"
       % (np.nanmedian(dp), *np.nanpercentile(dp, [2.5, 97.5]), np.nanmean(dp > 0)))
 print("  AUPRC    %+.4f  [%+.4f, %+.4f]   P(gain) = %.3f"

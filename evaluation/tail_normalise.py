@@ -18,7 +18,7 @@ optimism into an earlier fusion.
 
 Adoption gate, also predeclared (from the consultation that proposed this):
   - at least 2 absolute FPR@90R points better on BOTH centres
-  - non-worsening in at least 90% of patient-clustered bootstrap replicates on each
+  - non-worsening in at least 90% of group-clustered bootstrap replicates on each
 Anything less and this is noise dressed as a mechanism.
 """
 import argparse

@@ -32,7 +32,7 @@ calibration and pooling can help only by changing which images outrank which.
 **The threshold is set by one image.** At 90% recall on roughly 103 development positives, the
 operating point is the 10th-percentile positive. We once measured two poolings that correlated
 at Spearman 0.99997 and still differed 2.5× in FPR@90R. Treat any single FPR@90R delta as noise
-until it survives a patient-clustered bootstrap.
+until it survives a group-clustered bootstrap.
 
 ---
 
@@ -113,11 +113,17 @@ seen. Paired bootstrap clustered on near-duplicate groups.
 | center_2 · 816 images, 97 positives (11.9%) | 0.9930 | 0.9754 | 0.0014 |
 
 > **Read these as a different regime from the leaderboard, not merely as optimistic numbers.**
-> The same family of model measures FPR@90R 17 to 100 times worse on the challenge's held-out
-> data than on a held-out centre here: 60% against 0.6 to 3.6%. One held-out centre is a far
-> easier problem than twelve heterogeneous ones. The table is valid for ranking two candidates
-> against each other, and invalid as an absolute expectation. `EXPERIMENT_LOG.md` §1 documents
-> the calibration in full.
+> Earlier configurations from this project measured FPR@90R near 60% on the development
+> leaderboard, against low single-digit percentages on a held-out centre here. That gap spans
+> one to two orders of magnitude, and it is a property of the evaluation rather than of any
+> particular model: one held-out centre is a far easier problem than twelve heterogeneous ones.
+>
+> Two caveats matter for reading the table. The 60% figure comes from those earlier, externally
+> evaluated configurations, and does not correspond to the rows above. And the exact
+> configuration submitted here, plain DualRep with no prior shift and no noisy-OR, **was never
+> scored on the development leaderboard at all.** So treat this table as valid for ranking two
+> candidates against each other, and invalid as an absolute expectation.
+> `EXPERIMENT_LOG.md` §1 documents the calibration in full.
 
 ---
 
@@ -166,8 +172,21 @@ runs at 0.82. No perturbation available to us gets within 0.15 AUROC of the scor
 
 ## Reproduction
 
-You need Python 3.11+, a CUDA GPU, and the challenge data. Install with
-`pip install -r requirements.txt`.
+You need **Python 3.12**, a CUDA GPU, and the challenge data.
+
+Install in two steps. PyTorch must come from the CUDA 12.8 index, because the shipped
+checkpoints were written by `torch 2.11.0+cu128` and that build is the one verified to carry
+sm_120 kernels, which Blackwell cards require. A default `pip install torch` will give you a
+CPU or non-cu128 wheel and fail at load time.
+
+```bash
+python -m venv .venv
+.venv/Scripts/python -m pip install torch==2.11.0 torchvision==0.26.0 \
+    --index-url https://download.pytorch.org/whl/cu128
+.venv/Scripts/python -m pip install -r requirements.txt
+```
+
+On Linux or macOS the interpreter path is `.venv/bin/python` instead.
 
 ```mermaid
 flowchart TB
@@ -231,8 +250,14 @@ python data_split_scripts/build_combined.py --folds folds_v1.csv --out folds_v2.
 ```
 
 `folds_v2.csv` is the split every shipped model uses: 3,195 images and 208 neoplasia across five
-folds of 638 to 640 images, each holding 41 or 42 positives, grouped so no patient or lesion
-group spans a fold boundary. `make_folds.py` asserts that invariant.
+folds of 638 to 640 images, each holding 41 or 42 positives, grouped so no `group_id` spans a
+fold boundary. Challenge images are grouped by near-duplicate clusters and EVC images by patient
+ID. `make_folds.py` asserts that invariant.
+
+The distinction matters when reading the numbers. The challenge release ships no patient, exam or
+video identifiers, so grouping for `center_1` and `center_2` is by perceptual-hash near-duplicate
+cluster, which is a proxy for patient identity and not a substitute for it. Only EVC carries true
+patient IDs. Every bootstrap in this repository is therefore clustered by group, not by patient.
 
 ### 4. Train the ten shipped checkpoints
 
@@ -320,7 +345,7 @@ docker run --rm --network none --gpus all \
 | `submission_template/` | the container: `Dockerfile`, `inference.py`, `model/`, `platt.json` |
 | `submission_probe/` | single-model probe container |
 | `docs/MODEL_PROVENANCE.md` | every weight file's source, access date, checksum and licence status |
-| `report/` | the challenge method report |
+| `THIRD_PARTY_NOTICES.md` | third-party code, weights and datasets, and their terms |
 | `EXPERIMENT_LOG.md` | the complete experimental record, every lever tested, with numbers |
 
 Checkpoints and challenge data are excluded. Stage them as described above.
