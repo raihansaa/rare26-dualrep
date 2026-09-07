@@ -1,8 +1,0 @@
-# Keep the build context to what the Dockerfile actually COPYs. Without this the
-# saved submission tarballs (~6 GB each) are uploaded to the Docker daemon on
-# every build. Nothing here changes the image contents -- the Dockerfile names
-# requirements.txt, resources, model and inference.py explicitly.
-*.tar.gz
-test/
-_preflight.py
-__pycache__/
