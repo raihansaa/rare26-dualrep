@@ -329,15 +329,13 @@ Checkpoints and challenge data are excluded. Stage them as described above.
 
 ## Licence and third-party assets
 
-Code is MIT, see `LICENSE`. The grant covers this repository's source only. Pretrained weights
-and challenge data are third-party, are not redistributed here, and remain subject to their own
-terms. See `docs/MODEL_PROVENANCE.md`.
+This repository's original code is released under the MIT License (see `LICENSE`). The
+`submission_template/` directory is derived from the organizers' RARE submission template and
+retains its original license in `submission_template/LICENSE`. Third-party datasets and
+pretrained weights are not redistributed and remain subject to their respective licenses.
 
-One carve-out applies. `submission_template/` began as a clone of the organizers' own submission
-template ([TUE-ARIA/RARE25-Submission](https://github.com/TUE-ARIA/RARE25-Submission)), which is
-distributed under **CC BY-NC 4.0** and keeps its own `LICENSE` in that directory. The MIT grant
-covers our additions there, meaning the two-arm inference path, `platt.json`, `_preflight.py`,
-and the Dockerfile and build-script changes. It does not cover the upstream template itself.
+`THIRD_PARTY_NOTICES.md` lists each third-party item and its terms.
+`docs/MODEL_PROVENANCE.md` records every weight file's source, access date, checksum and
+licensing status.
 
-GastroNet-5M pretraining used roughly 4.8M endoscopy images from 8 Dutch hospitals, 2012 to 2020,
-publicly available and not redistributed. No private or non-public data was used at any point.
+No private or non-public external data was used at any point.

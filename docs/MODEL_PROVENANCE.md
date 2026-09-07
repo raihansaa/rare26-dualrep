@@ -2,7 +2,7 @@
 
 Required by the challenge submission rules: every pretrained weight used, where it came
 from, when it was obtained, its checksum, and its licence status. Nothing in this file is
-inferred — checksums were recomputed from the files on disk on 2026-08-19 and match the
+inferred. Checksums were recomputed from the files on disk on 2026-08-19 and match the
 `checkpoint_hash` values independently recorded in each run's out-of-fold prediction CSV.
 
 **No weight file listed here is redistributed in this repository.** Each must be obtained
@@ -29,7 +29,7 @@ Only the first two are used by the shipped system. The remainder were screened a
 **`dinov2.pth` identification.** A DINOv2 ViT-B/14 *register* variant (4 register tokens),
 self-supervised on GastroNet-5M (~4.8M endoscopy images, 8 Dutch hospitals, 2012–2020). It is
 not Meta's stock release: 0 of 173 tensors match stock reg4, and `blocks.11.mlp.fc2` has
-cosine similarity 0.057 against it — early layers close to stock, late layers rewritten. The
+cosine similarity 0.057 against it, so early layers sit close to stock and late layers are rewritten. The
 HuggingFace repository `tgwboers/GastroNet-5M_Pretrained_Weights` contains only a README; the
 weights come from the Theta portal above.
 
@@ -92,10 +92,10 @@ no saturation. All state dicts load with `strict=True`.
 
 ## Data
 
-- **EDD2020** (Endoscopy Disease Detection and Segmentation, EndoCV2020) — 386 frames from 5
+- **EDD2020** (Endoscopy Disease Detection and Segmentation, EndoCV2020). 386 frames from 5
   institutions with per-class segmentation masks. Obtained 2026-08-19 from the public Kaggle
   mirror `orvile/edd2020-endoscopy-detection-and-segmentation`; original challenge site
-  <https://edd2020.grand-challenge.org>. **Licence: CC BY-NC-SA 4.0 — attribution,
+  <https://edd2020.grand-challenge.org>. **Licence: CC BY-NC-SA 4.0, meaning attribution,
   NON-COMMERCIAL, share-alike.** Cite Ali et al., *Deep learning for detection and segmentation
   of artefact and disease instances in gastrointestinal endoscopy*, Medical Image Analysis, 2021
   (doi:10.1016/j.media.2021.102002) and Ali et al., *Endoscopy disease detection challenge 2020*,
@@ -105,9 +105,9 @@ no saturation. All state dicts load with `strict=True`.
   share-alike clauses need checking against the challenge terms first.
   Checked for overlap against all 3,195 RARE images by pHash before use: zero matches at
   Hamming ≤ 4, closest 6.
-- **RARE25 training release** — 3,095 images across two centres (`center_1`, `center_2`).
+- **RARE25 training release.** 3,095 images across two centres (`center_1`, `center_2`).
   Not redistributed.
-- **EndoVis 2015 Barrett's set** (`evc`) — 100 images (50 neoplasia / 50 non-dysplastic) from 39
+- **EndoVis 2015 Barrett's set** (`evc`). 100 images (50 neoplasia / 50 non-dysplastic) from 39
   patients. **Included in the final five-fold training pool (`folds_v2.csv`) and excluded from
   all reported evaluation metrics.** Every shipped checkpoint therefore trains on these images.
   They are excluded from evaluation because the set is degenerate for it: both stock and
