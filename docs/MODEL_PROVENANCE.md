@@ -33,12 +33,28 @@ cosine similarity 0.057 against it — early layers close to stock, late layers 
 HuggingFace repository `tgwboers/GastroNet-5M_Pretrained_Weights` contains only a README; the
 weights come from the Theta portal above.
 
-> **ACTION REQUIRED BEFORE SUBMISSION.** The licence text for the GastroNet weights is not
-> reproduced here because it could not be retrieved programmatically — the Theta listing page
-> did not render for automated fetching. Copy the exact terms from the portal (and any
-> required citation) into this section by hand, and confirm they permit use in a challenge
-> submission. Do not paraphrase them. The challenge rules permit publicly available
-> pretrained models; the specific terms attached to these files still need to be on record.
+**Licensing status.** No separate licence text is published at either distribution point, and
+this is recorded here as a finding rather than an omission. The Theta Vision Cortex listing page
+does not expose licence terms in retrievable form (checked 2026-09-07), and the HuggingFace
+repository `tgwboers/GastroNet-5M_Pretrained_Weights` carries no licence tag, containing only
+`.gitattributes` and a README (checked against the HuggingFace API, last modified January 2026).
+
+The weights are released publicly by their authors for scientific use, and that is the basis on
+which they are used here. The RARE26 rules permit publicly available pretrained models and
+prohibit only private external data, so this use is compliant. No terms have been agreed to
+beyond public availability, and nothing here is redistributed.
+
+Attribution is given to the originating work:
+
+- *GastroNet-5M: a multicenter dataset for developing foundation models in gastrointestinal
+  endoscopy*, Gastroenterology, 2025. PMID 40749857.
+  <https://pubmed.ncbi.nlm.nih.gov/40749857/>
+- *Foundation models in gastrointestinal endoscopic AI: impact of architecture, pre-training
+  approach and data efficiency*, Medical Image Analysis, 2024.
+  <https://www.sciencedirect.com/science/article/pii/S1361841524002238>
+
+Anyone reusing these weights should obtain them from the Theta portal directly and satisfy
+themselves as to the terms, which are not stated at the point of download.
 
 ## Trained checkpoints shipped in the container
 
@@ -60,9 +76,19 @@ Produced by this repository's code from the challenge training data. Staged at
 
 ## Container image
 
-> **ACTION REQUIRED.** Record the final image digest here after the container is built and
-> frozen: `docker inspect --format='{{index .RepoDigests 0}}' <tag>`, or the local image ID
-> from `docker images --digests` if the image is never pushed to a registry.
+The submitted container, built 2026-08-26 and frozen. It was never pushed to a registry, so the
+identifier below is the local image ID rather than a registry digest.
+
+| | |
+|---|---|
+| image ID | `sha256:6571524e410b3e59a0e7af1b66b433495c2f7714c71439def0f74a8af88d376c` |
+| tag | `rare26-twoarm-probavg` |
+| archive | `twoarm_10model_probavg.tar.gz`, 6,357,006,153 bytes |
+| base image | `pytorch/pytorch:2.11.0-cuda12.8-cudnn9-runtime` |
+
+Verified under `--network none --gpus all`: both arms load their five checkpoints, per-checkpoint
+Platt calibration executes, and the fixture frames score across the full range with no ties and
+no saturation. All state dicts load with `strict=True`.
 
 ## Data
 
@@ -81,8 +107,11 @@ Produced by this repository's code from the challenge training data. Staged at
   Hamming ≤ 4, closest 6.
 - **RARE25 training release** — 3,095 images across two centres (`center_1`, `center_2`).
   Not redistributed.
-- **EndoVis 2015 Barrett's set** (`evc`) — 100 images, 39 patients. Used only for fold
-  construction experiments and excluded from all headline metrics, as it is degenerate for
-  evaluation (see `EXPERIMENT_LOG.md` §5). Not redistributed.
+- **EndoVis 2015 Barrett's set** (`evc`) — 100 images (50 neoplasia / 50 non-dysplastic) from 39
+  patients. **Included in the final five-fold training pool (`folds_v2.csv`) and excluded from
+  all reported evaluation metrics.** Every shipped checkpoint therefore trains on these images.
+  They are excluded from evaluation because the set is degenerate for it: both stock and
+  domain-pretrained models reach roughly 1.0 AUROC on it without ever training on it, so it
+  cannot discriminate between candidates. Not redistributed.
 
 No private or non-public external data was used at any point.
